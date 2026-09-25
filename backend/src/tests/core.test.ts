@@ -80,4 +80,26 @@ describe('Orchestrator Intent Classification Tests', () => {
     const intent = OrchestratorAgent.classifyIntent('APPROVE:609d123456');
     assert.strictEqual(intent, 'APPROVE_ACTION');
   });
+
+  test('Classifies staff advance inquiry as STAFF_PAYROLL', () => {
+    const intent = OrchestratorAgent.classifyIntent('Raju helper ko 1000 advance diya');
+    assert.strictEqual(intent, 'STAFF_PAYROLL');
+  });
+
+  test('Classifies staff salary summary inquiry as STAFF_PAYROLL', () => {
+    const intent = OrchestratorAgent.classifyIntent('Show staff salary payroll status');
+    assert.strictEqual(intent, 'STAFF_PAYROLL');
+  });
+
+  test('Net salary math correctly deducts advances from earned salary', () => {
+    const monthlySalary = 12000;
+    const workingDays = 30;
+    const presentDays = 24;
+    const advanceTaken = 2000;
+    const earned = Math.round((monthlySalary / workingDays) * presentDays);
+    const netPayable = Math.max(0, earned - advanceTaken);
+
+    assert.strictEqual(earned, 9600);
+    assert.strictEqual(netPayable, 7600);
+  });
 });

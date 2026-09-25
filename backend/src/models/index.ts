@@ -16,3 +16,4 @@ export * from './AgentRun';
 export * from './Notification';
 export * from './Conversation';
 export * from './Message';
+export * from './Staff';

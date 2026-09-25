@@ -17,6 +17,7 @@ import {
   Notification,
   Conversation,
   Message,
+  Staff,
 } from '../models';
 
 export async function seedDatabase(force: boolean = false): Promise<void> {
@@ -45,6 +46,7 @@ export async function seedDatabase(force: boolean = false): Promise<void> {
     Notification.deleteMany({}),
     Conversation.deleteMany({}),
     Message.deleteMany({}),
+    Staff.deleteMany({}),
   ]);
 
   // 1. Create Business
@@ -644,8 +646,36 @@ export async function seedDatabase(force: boolean = false): Promise<void> {
       'Namaste Ramesh ji! 🙏 I am your VyaparAI Back Office assistant. I am continuously monitoring your stock, supplier payments, GST tasks, and expenses.\n\nYou can ask me things like:\n• "How is my business doing?"\n• "Check my inventory"\n• "Check supplier payments"\n• "What compliance tasks are pending?"\n• "Find schemes for my business"',
   });
 
+  // 17. Seed Staff for Shree General Store
+  await Staff.create([
+    {
+      businessId: business._id,
+      name: 'Raju Kumar',
+      phone: '+91 98221 11001',
+      role: 'Store Helper',
+      monthlySalary: 12000,
+      advanceSalaryTaken: 2000,
+      presentDaysThisMonth: 24,
+      totalWorkingDays: 30,
+      joiningDate: new Date('2024-01-15'),
+      active: true,
+    },
+    {
+      businessId: business._id,
+      name: 'Anil Shinde',
+      phone: '+91 98221 11002',
+      role: 'Delivery Associate',
+      monthlySalary: 14000,
+      advanceSalaryTaken: 0,
+      presentDaysThisMonth: 26,
+      totalWorkingDays: 30,
+      joiningDate: new Date('2023-06-10'),
+      active: true,
+    },
+  ]);
+
   // ==========================================
-  // 17. Seed Business 2: "Sharma Auto Spares" (Nagpur)
+  // 18. Seed Business 2: "Sharma Auto Spares" (Nagpur)
   // Demonstrates strict multi-tenant isolation!
   // ==========================================
   const business2 = await Business.create({
@@ -803,6 +833,34 @@ export async function seedDatabase(force: boolean = false): Promise<void> {
     content:
       'Namaste Rahul ji! 🚗 I am monitoring inventory and supplier dues for Sharma Auto Spares, Nagpur. Engine Oil 20W40 has only ~1.5 days remaining (4 cans left). Let me know if you would like me to prepare a purchase order with Western Lubricants.',
   });
+
+  // Seed Staff for Sharma Auto Spares
+  await Staff.create([
+    {
+      businessId: business2._id,
+      name: 'Santosh Yadav',
+      phone: '+91 97654 44001',
+      role: 'Mechanic & Parts Packer',
+      monthlySalary: 16000,
+      advanceSalaryTaken: 3000,
+      presentDaysThisMonth: 25,
+      totalWorkingDays: 30,
+      joiningDate: new Date('2022-03-01'),
+      active: true,
+    },
+    {
+      businessId: business2._id,
+      name: 'Ganesh Patil',
+      phone: '+91 97654 44002',
+      role: 'Delivery Driver',
+      monthlySalary: 15000,
+      advanceSalaryTaken: 1000,
+      presentDaysThisMonth: 27,
+      totalWorkingDays: 30,
+      joiningDate: new Date('2023-09-15'),
+      active: true,
+    },
+  ]);
 
   console.log('✅ Demo database successfully seeded for Shree General Store & Sharma Auto Spares!');
 }

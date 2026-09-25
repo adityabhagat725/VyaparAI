@@ -4,6 +4,7 @@ import { ComplianceAgent } from './complianceAgent';
 import { GovernmentSchemeAgent } from './schemeAgent';
 import { ExpenseAgent } from './expenseAgent';
 import { BusinessInsightsAgent } from './insightsAgent';
+import { StaffAgent } from './staffAgent';
 import { AgentRunService } from '../services/agentRunService';
 import { Approval, PurchaseOrder, Conversation, Message } from '../models';
 import { InventoryTools } from '../tools/inventoryTools';
@@ -148,7 +149,24 @@ export class OrchestratorAgent {
       return 'RECORD_EXPENSE';
     }
 
-    // 7. General Business Performance
+    // 7. Staff, Attendance & Salary Advances
+    if (
+      q.includes('staff') ||
+      q.includes('employee') ||
+      q.includes('salary') ||
+      q.includes('payroll') ||
+      q.includes('advance') ||
+      q.includes('helper') ||
+      q.includes('raju') ||
+      q.includes('कर्मचारी') ||
+      q.includes('वेतन') ||
+      q.includes('पगार') ||
+      q.includes('कामगार')
+    ) {
+      return 'STAFF_PAYROLL';
+    }
+
+    // 8. General Business Performance
     if (
       q.includes('business') ||
       q.includes('doing') ||
@@ -320,6 +338,10 @@ export class OrchestratorAgent {
 
       case 'RECORD_EXPENSE':
         response = await ExpenseAgent.handle({ businessId, query, runId: run._id.toString(), phoneNumber });
+        break;
+
+      case 'STAFF_PAYROLL':
+        response = await StaffAgent.process(query, businessId);
         break;
 
       case 'BUSINESS_INSIGHTS':
