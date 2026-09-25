@@ -23,6 +23,7 @@ interface Translations {
     compliance: string;
     schemes: string;
     approvals: string;
+    staff: string;
     activity: string;
     audit: string;
     settings: string;
@@ -42,6 +43,8 @@ interface Translations {
     expensePrompt: string;
     insights: string;
     insightsPrompt: string;
+    staff: string;
+    staffPrompt: string;
   };
 }
 
@@ -67,6 +70,7 @@ const translations: Record<Language, Translations> = {
       compliance: 'GST & Compliance',
       schemes: 'Govt Schemes',
       approvals: 'Approvals (HITL)',
+      staff: 'Staff & Payroll',
       activity: 'Agent Activity',
       audit: 'Audit Logs',
       settings: 'Settings',
@@ -86,6 +90,8 @@ const translations: Record<Language, Translations> = {
       expensePrompt: 'Petrol 500 for delivery tempo',
       insights: '6. Business Health',
       insightsPrompt: 'How is my business doing?',
+      staff: '7. Staff Advance',
+      staffPrompt: 'Raju helper ko 1000 advance diya',
     },
   },
   hi: {
@@ -109,6 +115,7 @@ const translations: Record<Language, Translations> = {
       compliance: 'जीएसटी अनुपालन',
       schemes: 'सरकारी योजनाएं',
       approvals: 'स्वीकृति केंद्र (HITL)',
+      staff: 'स्टाफ व वेतन',
       activity: 'एजेंट गतिविधि',
       audit: 'ऑडिट लॉग्स',
       settings: 'सेटिंग्स',
@@ -128,6 +135,8 @@ const translations: Record<Language, Translations> = {
       expensePrompt: 'पेट्रोल 500 डिलीवरी टेम्पो के लिए',
       insights: '6. व्यापार समीक्षा',
       insightsPrompt: 'मेरा व्यापार कैसा चल रहा है?',
+      staff: '7. स्टाफ अग्रिम',
+      staffPrompt: 'राजू हेल्पर को 1000 एडवांस दिया',
     },
   },
   mr: {
@@ -151,6 +160,7 @@ const translations: Record<Language, Translations> = {
       compliance: 'जीएसटी पूर्तता',
       schemes: 'शासकीय योजना',
       approvals: 'मंजुरी केंद्र (HITL)',
+      staff: 'कर्मचारी व पगार',
       activity: 'एजंट हालचाली',
       audit: 'ऑडिट लॉग्स',
       settings: 'सेटिंग्ज',
@@ -170,6 +180,8 @@ const translations: Record<Language, Translations> = {
       expensePrompt: 'पेट्रोल ५०० टेम्पोसाठी',
       insights: '६. व्यवसायाचा आढावा',
       insightsPrompt: 'माझा व्यवसाय कसा चालू आहे?',
+      staff: '७. कर्मचारी उचल (Advance)',
+      staffPrompt: 'राजू हेल्परला १००० रुपये ॲडव्हान्स दिले',
     },
   },
 };

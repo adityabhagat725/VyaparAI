@@ -75,4 +75,13 @@ export const api = {
   listBusinesses: () => apiRequest<any[]>('/auth/businesses'),
   switchBusiness: (businessId: string) =>
     apiRequest<any>('/auth/switch-business', { method: 'POST', body: JSON.stringify({ businessId }) }),
+
+  // Staff & Payroll
+  getStaff: () => apiRequest<any>('/staff'),
+  recordStaffAdvance: (name: string, amount: number, note?: string) =>
+    apiRequest<any>('/staff/advance', { method: 'POST', body: JSON.stringify({ name, amount, note }) }),
+  createStaff: (data: { name: string; phone?: string; role?: string; monthlySalary: number }) =>
+    apiRequest<any>('/staff', { method: 'POST', body: JSON.stringify(data) }),
+  disburseStaffSalary: (staffId: string) =>
+    apiRequest<any>(`/staff/${staffId}/disburse`, { method: 'POST' }),
 };

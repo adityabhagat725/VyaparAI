@@ -9,6 +9,7 @@ import {
   Scale,
   Award,
   ShieldCheck,
+  UserCheck,
   Activity,
   FileText,
   Settings,
@@ -25,6 +26,7 @@ export type NavTab =
   | 'compliance'
   | 'schemes'
   | 'approvals'
+  | 'staff'
   | 'activity'
   | 'audit'
   | 'settings';
@@ -77,6 +79,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badge: pendingApprovalsCount > 0 ? pendingApprovalsCount : undefined,
       badgeColor: 'bg-amber-500 text-slate-900 font-bold',
     },
+    { id: 'staff', label: t.tabs.staff, icon: UserCheck },
     { id: 'activity', label: t.tabs.activity, icon: Activity },
     { id: 'audit', label: t.tabs.audit, icon: FileText },
     { id: 'settings', label: t.tabs.settings, icon: Settings },

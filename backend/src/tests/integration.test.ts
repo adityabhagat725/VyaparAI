@@ -114,4 +114,16 @@ describe('VyaparAI End-to-End Multi-Agent Integration Tests', () => {
     assert.ok(res.text.includes('Business Health Summary'), 'Must provide summary header');
     assert.ok(res.text.includes('Recommended Agent Actions'), 'Must provide actionable agent recommendations');
   });
+
+  test('Scenario 7: Staff & Payroll Agent records salary advance and computes net payout', async () => {
+    const res = await OrchestratorAgent.processMessage({
+      businessId,
+      query: 'Raju helper ko 1000 advance diya',
+    });
+    assert.strictEqual(res.agentName, 'StaffAgent');
+    assert.ok(res.text.includes('Raju') || res.text.includes('Helper'), 'Should reference staff member');
+    assert.ok(res.text.includes('1,000') || res.text.includes('1000'), 'Should record 1,000 advance');
+    assert.ok(res.text.includes('Net') || res.text.includes('Remaining') || res.text.includes('बकाया'), 'Should state remaining net salary');
+  });
 });
+

@@ -10,6 +10,7 @@ import { PaymentsTab } from './components/payments/PaymentsTab';
 import { ComplianceTab } from './components/compliance/ComplianceTab';
 import { SchemesTab } from './components/schemes/SchemesTab';
 import { ApprovalsTab } from './components/approvals/ApprovalsTab';
+import { StaffTab } from './components/staff/StaffTab';
 import { AgentActivityTab } from './components/activity/AgentActivityTab';
 import { AuditLogsTab } from './components/audit/AuditLogsTab';
 import { SettingsTab } from './components/settings/SettingsTab';
@@ -81,6 +82,7 @@ export default function App() {
     { label: `🏛️ ${t.scenarios.schemes}`, prompt: t.scenarios.schemesPrompt },
     { label: `⛽ ${t.scenarios.expense}`, prompt: t.scenarios.expensePrompt },
     { label: `📈 ${t.scenarios.insights}`, prompt: t.scenarios.insightsPrompt },
+    { label: `👥 ${t.scenarios.staff}`, prompt: t.scenarios.staffPrompt },
   ];
 
   const handleTriggerScenario = (prompt: string) => {
@@ -161,6 +163,8 @@ export default function App() {
             {activeTab === 'approvals' && (
               <ApprovalsTab onApprovalDone={fetchDashboard} />
             )}
+
+            {activeTab === 'staff' && <StaffTab />}
 
             {activeTab === 'activity' && <AgentActivityTab />}
 

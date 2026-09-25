@@ -180,3 +180,26 @@ export interface ChatMessage {
   };
   createdAt: string;
 }
+
+export interface StaffItem {
+  id: string;
+  name: string;
+  phone?: string;
+  role: string;
+  monthlySalary: number;
+  advanceSalaryTaken: number;
+  presentDays: number;
+  totalWorkingDays: number;
+  earnedSalary: number;
+  netPayable: number;
+  active: boolean;
+}
+
+export interface PayrollSummary {
+  totalStaffCount: number;
+  totalMonthlyPayroll: number;
+  totalAdvancesGiven: number;
+  totalNetPayable: number;
+  staff: StaffItem[];
+}
+

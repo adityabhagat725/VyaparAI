@@ -11,6 +11,7 @@ import { ApprovalController } from '../controllers/approvalController';
 import { AgentController } from '../controllers/agentController';
 import { ChatController } from '../controllers/chatController';
 import { SettingsController } from '../controllers/settingsController';
+import { StaffController } from '../controllers/staffController';
 
 const router = Router();
 
@@ -63,7 +64,13 @@ router.get('/chat/messages', ChatController.getMessages);
 router.post('/chat', ChatController.sendMessage);
 router.all('/whatsapp/webhook', ChatController.whatsappWebhook);
 
-// 10. Settings & Demo Management
+// 10. Staff & Payroll
+router.get('/staff', StaffController.list);
+router.post('/staff', StaffController.create);
+router.post('/staff/advance', StaffController.recordAdvance);
+router.post('/staff/:id/disburse', StaffController.disburse);
+
+// 11. Settings & Demo Management
 router.get('/settings', SettingsController.get);
 router.put('/settings', SettingsController.update);
 router.post('/settings/reset-demo', SettingsController.resetDemo);
