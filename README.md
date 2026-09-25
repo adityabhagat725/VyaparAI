@@ -59,6 +59,7 @@ The system demonstrates the central thesis:
 4. **Government Scheme Agent**: Matches business profile (turnover, sector, category, location) against official MSME schemes (PMMY Mudra, CGTMSE, PMEGP), explains eligibility rationale, and prepares prefilled application drafts.
 5. **Expense Agent**: Conversational expense logging (e.g. `"Petrol 2000"`), NLP amount extraction, auto-categorization (Transportation, Utilities, Packaging, Rent), and ledger summarization.
 6. **Business Insights Agent**: Holistic multi-domain analytics across sales, inventory, and expenses to produce proactive health summaries and recommended next actions.
+7. **Staff & Payroll Agent**: Roster management, attendance tracking, conversational salary advance deductions (e.g. `"Raju helper ko 1000 advance diya"`), net month-end payroll calculation, and disbursement execution.
 
 ---
 
@@ -102,7 +103,7 @@ cp .env.example backend/.env
 *(By default, `USE_MEMORY_DB=true` is enabled, allowing instant startup without needing a local MongoDB daemon installed!)*
 
 ### 3. Run Tests:
-Verify all 20 unit and end-to-end integration tests:
+Verify all 24 unit and end-to-end integration tests:
 ```bash
 npm run test --workspace=backend
 ```
@@ -114,6 +115,12 @@ npm run dev
 ```
 - **Backend API**: `http://localhost:5000`
 - **Frontend Dashboard & WhatsApp Simulator**: `http://localhost:3000`
+
+### 5. Docker Deployment (Optional):
+Spin up containerized MongoDB 7.0, Backend, and Frontend Nginx proxy:
+```bash
+docker compose up --build
+```
 
 ---
 
@@ -162,12 +169,17 @@ The system comes pre-seeded with **Shree General Store** (Kirana & Retail store 
 1. In WhatsApp Simulator, ask: `"How is my business doing?"` (or in Hindi `"मेरा व्यापार कैसा चल रहा है?"` / Marathi `"माझा व्यवसाय कसा चालू आहे?"`).
    - *Business Insights Agent synthesizes sales velocity, critical inventory alerts, vendor dues, and GST deadlines into a unified executive summary with prioritized next actions.*
 
+### Scenario 7 — Staff Advances & Net Payroll Management
+1. In WhatsApp Simulator, type: `"Raju helper ko 1000 advance diya"` (or in Marathi `"राजू हेल्परला १००० रुपये ॲडव्हान्स दिले"`).
+   - *Staff Agent records ₹1,000 advance against Raju's ₹12,000 base salary, calculates earned salary to date, deducts the advance, and reports ₹7,600 net balance due.*
+2. Open the **Staff & Payroll** tab in the Web Dashboard to view real-time staff cards, attendance records, "+ Record Advance" modal, and "✓ Disburse Salary" action.
+
 ---
 
 ## 🇮🇳 Multilingual & Accessibility Features
 
 1. **Regional Language Toggle (`[EN]` | `[हिंदी]` | `[मराठी]`)**:
-   - Header selector instantaneously localizes all 12 navigation tabs, scenario prompts, and system banners into English, Hindi, or Marathi.
+   - Header selector instantaneously localizes all 13 navigation tabs, scenario prompts, and system banners into English, Hindi, or Marathi.
 2. **Native Intent Understanding**:
    - Central Orchestrator Agent recognizes and routes colloquial queries in Hindi and Marathi (e.g. `"चावल कितना बचा है?"`, `"सप्लायर्सचे पेमेंट तपासा"`, `"पेट्रोल 500"`).
 3. **Voice Response Synthesis (`🔊 Listen`)**:
