@@ -15,6 +15,7 @@ import { AuditLogsTab } from './components/audit/AuditLogsTab';
 import { SettingsTab } from './components/settings/SettingsTab';
 import { api } from './api/client';
 import { Business } from './types';
+import { useLanguage } from './context/LanguageContext';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavTab>('dashboard');
@@ -68,17 +69,18 @@ export default function App() {
     }
   };
 
+  const { t } = useLanguage();
   const [scenarioPrompt, setScenarioPrompt] = useState<string | null>(null);
   const pendingApprovalsCount = dashboardData?.aiActions?.pendingApprovalsCount || 0;
   const urgentLowStockCount = dashboardData?.urgent?.lowStockCount || 0;
 
   const scenarios = [
-    { label: '📦 Scenario 1: Stockout & Order', prompt: 'Order the rice' },
-    { label: '💳 Scenario 2: Payment Recon', prompt: 'Check supplier payments' },
-    { label: '⚖️ Scenario 3: GST Compliance', prompt: 'What compliance tasks are pending?' },
-    { label: '🏛️ Scenario 4: MSME Schemes', prompt: 'Find schemes for my business' },
-    { label: '⛽ Scenario 5: Log Expense', prompt: 'Petrol 2000' },
-    { label: '📈 Scenario 6: Executive Health', prompt: 'How is my business doing?' },
+    { label: `📦 ${t.scenarios.stock}`, prompt: t.scenarios.orderStockPrompt },
+    { label: `💳 ${t.scenarios.payments}`, prompt: t.scenarios.paymentsPrompt },
+    { label: `⚖️ ${t.scenarios.gst}`, prompt: t.scenarios.gstPrompt },
+    { label: `🏛️ ${t.scenarios.schemes}`, prompt: t.scenarios.schemesPrompt },
+    { label: `⛽ ${t.scenarios.expense}`, prompt: t.scenarios.expensePrompt },
+    { label: `📈 ${t.scenarios.insights}`, prompt: t.scenarios.insightsPrompt },
   ];
 
   const handleTriggerScenario = (prompt: string) => {
@@ -99,7 +101,7 @@ export default function App() {
       {/* Guided Demo Scenarios Bar */}
       <div className="bg-slate-950 border-b border-slate-800 px-6 py-2 flex items-center space-x-2.5 overflow-x-auto text-xs shrink-0 no-scrollbar">
         <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider shrink-0 flex items-center space-x-1">
-          <span>⚡ 1-Click Demo Scenarios:</span>
+          <span>⚡ {t.quickScenarios}</span>
         </span>
         {scenarios.map((sc, idx) => (
           <button

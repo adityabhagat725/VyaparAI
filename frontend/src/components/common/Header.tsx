@@ -1,6 +1,7 @@
 import React from 'react';
-import { Bell, ShieldCheck, Sparkles, RefreshCw } from 'lucide-react';
+import { Bell, ShieldCheck, Sparkles, RefreshCw, Globe } from 'lucide-react';
 import { Business } from '../../types';
+import { useLanguage, Language } from '../../context/LanguageContext';
 
 interface HeaderProps {
   business?: Business | null;
@@ -15,6 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   onResetDemo,
   resetting,
 }) => {
+  const { language, setLanguage, t } = useLanguage();
   return (
     <header className="bg-slate-900 border-b border-slate-800 text-white px-6 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-md">
       <div className="flex items-center space-x-3.5">
@@ -23,9 +25,9 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-lg font-bold tracking-tight text-white">VyaparAI</h1>
+            <h1 className="text-lg font-bold tracking-tight text-white">{t.appName}</h1>
             <span className="text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full uppercase tracking-wider">
-              Agentic Core
+              {t.tagline}
             </span>
           </div>
           <p className="text-xs text-slate-400 flex items-center space-x-1">
@@ -37,6 +39,34 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       <div className="flex items-center space-x-3">
+        {/* Language Selector */}
+        <div className="flex items-center space-x-1 bg-slate-800/90 border border-slate-700 rounded-lg p-0.5 text-xs">
+          <Globe className="w-3.5 h-3.5 text-slate-400 ml-1.5 mr-0.5" />
+          <button
+            onClick={() => setLanguage('en')}
+            className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+              language === 'en' ? 'bg-emerald-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            EN
+          </button>
+          <button
+            onClick={() => setLanguage('hi')}
+            className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+              language === 'hi' ? 'bg-emerald-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            हिंदी
+          </button>
+          <button
+            onClick={() => setLanguage('mr')}
+            className={`px-2 py-0.5 rounded text-[11px] font-medium transition ${
+              language === 'mr' ? 'bg-emerald-600 text-white font-bold' : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            मराठी
+          </button>
+        </div>
         {/* Reset Demo Data button */}
         <button
           onClick={onResetDemo}

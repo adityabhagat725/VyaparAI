@@ -13,6 +13,7 @@ import {
   FileText,
   Settings,
 } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
 
 export type NavTab =
   | 'dashboard'
@@ -41,6 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   pendingApprovalsCount,
   urgentLowStockCount,
 }) => {
+  const { t } = useLanguage();
   const navItems: Array<{
     id: NavTab;
     label: string;
@@ -49,35 +51,35 @@ export const Sidebar: React.FC<SidebarProps> = ({
     badgeColor?: string;
     highlight?: boolean;
   }> = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'dashboard', label: t.tabs.dashboard, icon: LayoutDashboard },
     {
       id: 'whatsapp',
-      label: 'WhatsApp Simulator',
+      label: t.tabs.whatsapp,
       icon: MessageSquare,
       highlight: true,
     },
-    { id: 'assistant', label: 'AI Assistant', icon: Bot },
+    { id: 'assistant', label: t.tabs.assistant, icon: Bot },
     {
       id: 'inventory',
-      label: 'Inventory',
+      label: t.tabs.inventory,
       icon: Package,
       badge: urgentLowStockCount > 0 ? urgentLowStockCount : undefined,
       badgeColor: 'bg-red-500 text-white',
     },
-    { id: 'suppliers', label: 'Suppliers', icon: Users },
-    { id: 'payments', label: 'Payments', icon: CreditCard },
-    { id: 'compliance', label: 'GST & Compliance', icon: Scale },
-    { id: 'schemes', label: 'Government Schemes', icon: Award },
+    { id: 'suppliers', label: t.tabs.suppliers, icon: Users },
+    { id: 'payments', label: t.tabs.payments, icon: CreditCard },
+    { id: 'compliance', label: t.tabs.compliance, icon: Scale },
+    { id: 'schemes', label: t.tabs.schemes, icon: Award },
     {
       id: 'approvals',
-      label: 'Approvals',
+      label: t.tabs.approvals,
       icon: ShieldCheck,
       badge: pendingApprovalsCount > 0 ? pendingApprovalsCount : undefined,
       badgeColor: 'bg-amber-500 text-slate-900 font-bold',
     },
-    { id: 'activity', label: 'Agent Activity', icon: Activity },
-    { id: 'audit', label: 'Audit Logs', icon: FileText },
-    { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'activity', label: t.tabs.activity, icon: Activity },
+    { id: 'audit', label: t.tabs.audit, icon: FileText },
+    { id: 'settings', label: t.tabs.settings, icon: Settings },
   ];
 
   return (

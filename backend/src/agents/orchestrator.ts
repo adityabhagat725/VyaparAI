@@ -29,7 +29,10 @@ export class OrchestratorAgent {
       q.includes('reorder') ||
       q.includes('mangao') ||
       q.includes('khareedo') ||
-      q.includes('bhejo')
+      q.includes('bhejo') ||
+      q.includes('मागवा') ||
+      q.includes('मंगाओ') ||
+      q.includes('ऑर्डर')
     ) {
       return 'REORDER_INVENTORY';
     }
@@ -43,7 +46,10 @@ export class OrchestratorAgent {
       q.includes('gstr') ||
       q.includes('deadline') ||
       q.includes('filing') ||
-      q.includes('tax date')
+      q.includes('tax date') ||
+      q.includes('जीएसटी') ||
+      q.includes('पूर्तता') ||
+      q.includes('कर')
     ) {
       return 'GST_COMPLIANCE';
     }
@@ -60,7 +66,10 @@ export class OrchestratorAgent {
       q.includes('government') ||
       q.includes('govt') ||
       q.includes('yojana') ||
-      q.includes('sarkari')
+      q.includes('sarkari') ||
+      q.includes('योजना') ||
+      q.includes('शासकीय') ||
+      q.includes('अनुदान')
     ) {
       return 'GOVERNMENT_SCHEMES';
     }
@@ -80,7 +89,11 @@ export class OrchestratorAgent {
       q.includes('havent i paid') ||
       q.includes('udhari') ||
       q.includes('kisko dena hai') ||
-      q.includes('baki')
+      q.includes('baki') ||
+      q.includes('देयके') ||
+      q.includes('थकबाकी') ||
+      q.includes('भुगतान') ||
+      q.includes('हिशोब')
     ) {
       return 'PAYMENT_RECONCILIATION';
     }
@@ -107,6 +120,10 @@ export class OrchestratorAgent {
       q.includes('namak') ||
       q.includes('kitna bacha') ||
       q.includes('maal kitna') ||
+      q.includes('चावल') ||
+      q.includes('तांदूळ') ||
+      q.includes('साठा') ||
+      q.includes('शिल्लक') ||
       (q.includes('how much') && !q.includes('expense') && !q.includes('spent'))
     ) {
       return 'CHECK_INVENTORY';
@@ -124,7 +141,9 @@ export class OrchestratorAgent {
       q.includes('transport') ||
       q.includes('tempo') ||
       q.includes('kharch') ||
-      q.includes('kharcha')
+      q.includes('kharcha') ||
+      q.includes('खर्च') ||
+      q.includes('पेट्रोल')
     ) {
       return 'RECORD_EXPENSE';
     }
@@ -140,7 +159,10 @@ export class OrchestratorAgent {
       q.includes('status') ||
       q.includes('kaisa chal raha') ||
       q.includes('hisab') ||
-      q.includes('dukan')
+      q.includes('dukan') ||
+      q.includes('व्यापार') ||
+      q.includes('व्यवसाय') ||
+      q.includes('आढावा')
     ) {
       return 'BUSINESS_INSIGHTS';
     }
