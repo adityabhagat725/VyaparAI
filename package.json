@@ -1,0 +1,30 @@
+{
+  "name": "vyaparai-root",
+  "version": "1.0.0",
+  "description": "VyaparAI — Agentic Back Office for Indian MSMEs",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
+    "seed": "npm run seed --workspace=backend",
+    "test": "npm run test --workspace=backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "keywords": [
+    "msme",
+    "ai-agents",
+    "orchestrator",
+    "inventory",
+    "compliance",
+    "gst",
+    "vyaparai"
+  ],
+  "author": "VyaparAI Team",
+  "license": "ISC"
+}
