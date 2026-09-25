@@ -159,8 +159,35 @@ The system comes pre-seeded with **Shree General Store** (Kirana & Retail store 
    - *Agent extracts amount, auto-classifies category as Transportation / Packaging, records the expense, and logs the audit event.*
 
 ### Scenario 6 — Holistic Business Health Overview
-1. In WhatsApp Simulator, ask: `"How is my business doing?"`.
+1. In WhatsApp Simulator, ask: `"How is my business doing?"` (or in Hindi `"मेरा व्यापार कैसा चल रहा है?"` / Marathi `"माझा व्यवसाय कसा चालू आहे?"`).
    - *Business Insights Agent synthesizes sales velocity, critical inventory alerts, vendor dues, and GST deadlines into a unified executive summary with prioritized next actions.*
+
+---
+
+## 🇮🇳 Multilingual & Accessibility Features
+
+1. **Regional Language Toggle (`[EN]` | `[हिंदी]` | `[मराठी]`)**:
+   - Header selector instantaneously localizes all 12 navigation tabs, scenario prompts, and system banners into English, Hindi, or Marathi.
+2. **Native Intent Understanding**:
+   - Central Orchestrator Agent recognizes and routes colloquial queries in Hindi and Marathi (e.g. `"चावल कितना बचा है?"`, `"सप्लायर्सचे पेमेंट तपासा"`, `"पेट्रोल 500"`).
+3. **Voice Response Synthesis (`🔊 Listen`)**:
+   - Every agent response in the WhatsApp Simulator includes a voice note player powered by the Web Speech API (`window.speechSynthesis`), allowing non-technical Kirana owners to listen to agent recommendations aloud.
+
+---
+
+## 🏢 Strict Multi-Tenant Isolation & Live Switcher
+
+To prove zero cross-business contamination to judges and security auditors:
+- **Enterprise 1: Shree General Store (Pune)**: Retail Kirana (Turnover: ₹38.5L), selling Rice, Oil, Sugar.
+- **Enterprise 2: Sharma Auto Spares (Nagpur)**: Auto Parts Wholesale (Turnover: ₹72L), selling Engine Oil, Ceramic Brake Pads.
+- **1-Click Switcher**: Use the Enterprise dropdown in the header to switch between businesses. Each profile displays strictly isolated inventory, suppliers, pending liabilities, tax filings, and WhatsApp chat history with zero data overlap.
+
+---
+
+## 📑 Official Document Exports & Printing
+
+- **Download Form GSTR-3B JSON**: The compliance return modal allows one-click export of an authentic GSTN-compatible JSON return payload with aggregated turnover, CGST, SGST, IGST, and ITC figures.
+- **Print Purchase Order Vouchers**: The Purchase Order modal features a `Print Voucher` button with custom `@media print` styling that formats clean A4/thermal purchase orders for suppliers.
 
 ---
 
@@ -177,6 +204,20 @@ The system comes pre-seeded with **Shree General Store** (Kirana & Retail store 
 - JWT-based authentication with bcrypt password hashing.
 - Role-based authorization (`OWNER`, `MANAGER`, `STAFF`).
 - Clean service interfaces (`ISupplierService`, `IPaymentService`, `IGSTService`, `IWhatsAppService`) allowing real API credentials to be plugged into `.env` without modifying agent logic.
+
+---
+
+## 🎤 3-Minute Hackathon / Investor Pitch Script
+
+> **"Judges, small Indian business owners don't fail because they lack ambition. They fail because they spend 70% of their day on administrative firefighting—counting stock, chasing supplier invoices, and worrying about GST penalties.**
+>
+> **Traditional software tells the owner: 'Here is a dashboard. Now go figure out what to do.'**
+>
+> **VyaparAI flips the paradigm: 'It's not a dashboard. It's an AI back office that actually takes action.'**
+>
+> **When cooking oil runs low, VyaparAI doesn't just show a red bar—it forecasts a 2-day stockout, matches Kumar Distributors, calculates the exact reorder quantity, and prepares a Purchase Order. The owner clicks 'Approve' on WhatsApp, and the order is placed, audited, and logged.**
+>
+> **From GSTR-3B preparation to finding government MSME subsidies and tracking expenses in Hindi and Marathi, VyaparAI gives every small shopkeeper an autonomous CFO, supply chain manager, and compliance officer in their pocket."**
 
 ---
 
