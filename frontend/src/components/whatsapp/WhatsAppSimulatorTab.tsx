@@ -36,7 +36,32 @@ export const WhatsAppSimulatorTab: React.FC<WhatsAppSimulatorTabProps> = ({
   const [typing, setTyping] = useState(false);
   const [isRecordingVoice, setIsRecordingVoice] = useState(false);
   const [recordingSeconds, setRecordingSeconds] = useState(0);
+  const [speakingId, setSpeakingId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const speakMessage = (id: string, text: string) => {
+    if (!('speechSynthesis' in window)) {
+      alert('Speech synthesis is not supported in this browser.');
+      return;
+    }
+    if (speakingId === id) {
+      window.speechSynthesis.cancel();
+      setSpeakingId(null);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    // Clean markdown asterisks and emojis for speech
+    const clean = text
+      .replace(/[*_#~`]/g, '')
+      .replace(/[\u{1F300}-\u{1FAFF}]/gu, '')
+      .replace(/[^\x00-\x7F]/g, ' ');
+    const utterance = new SpeechSynthesisUtterance(clean);
+    utterance.rate = 1.0;
+    utterance.onend = () => setSpeakingId(null);
+    utterance.onerror = () => setSpeakingId(null);
+    setSpeakingId(id);
+    window.speechSynthesis.speak(utterance);
+  };
 
   const quickPrompts = [
     'How is my business doing?',
@@ -195,9 +220,23 @@ export const WhatsAppSimulatorTab: React.FC<WhatsAppSimulatorTabProps> = ({
                 }`}
               >
                 {!isUser && (
-                  <div className="flex items-center space-x-1.5 mb-1.5 text-[11px] font-bold text-emerald-400">
-                    <Bot className="w-3.5 h-3.5" />
-                    <span>{msg.agentName || 'VyaparAI'}</span>
+                  <div className="flex items-center justify-between mb-1.5 text-[11px] font-bold text-emerald-400">
+                    <div className="flex items-center space-x-1.5">
+                      <Bot className="w-3.5 h-3.5" />
+                      <span>{msg.agentName || 'VyaparAI'}</span>
+                    </div>
+                    <button
+                      onClick={() => speakMessage(msg._id, msg.content)}
+                      title="Listen to agent audio response"
+                      className={`flex items-center space-x-1 text-[10px] px-2 py-0.5 rounded transition ${
+                        speakingId === msg._id
+                          ? 'bg-emerald-500 text-slate-950 font-bold animate-pulse'
+                          : 'text-slate-400 hover:text-emerald-300 hover:bg-slate-700/60'
+                      }`}
+                    >
+                      <Volume2 className="w-3 h-3" />
+                      <span>{speakingId === msg._id ? 'Stop' : 'Listen'}</span>
+                    </button>
                   </div>
                 )}
 

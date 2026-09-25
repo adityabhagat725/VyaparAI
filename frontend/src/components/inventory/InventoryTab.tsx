@@ -371,7 +371,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({ onRefreshApprovals }
               </span>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => alert('Voucher PDF generated!')}
+                  onClick={() => window.print()}
                   className="px-3.5 py-1.5 border border-slate-300 rounded-xl hover:bg-slate-200 text-slate-700 font-semibold flex items-center space-x-1.5"
                 >
                   <Printer className="w-3.5 h-3.5" />

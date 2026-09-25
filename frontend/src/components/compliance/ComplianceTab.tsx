@@ -41,6 +41,42 @@ export const ComplianceTab: React.FC = () => {
     }
   };
 
+  const handleDownloadGstnJson = (task: any) => {
+    const gstnPayload = {
+      gstin: "27AABCS1429B1Z1",
+      fp: task.period || "082026",
+      form_type: task.formType || "GSTR-3B",
+      turnover_details: {
+        gross_turnover: task.preparedData?.totalTurnover || 320000,
+        taxable_value: task.preparedData?.taxableValue || 295000,
+      },
+      tax_liability: {
+        cgst: task.preparedData?.cgstAmount || 7375,
+        sgst: task.preparedData?.sgstAmount || 7375,
+        igst: task.preparedData?.igstAmount || 2400,
+      },
+      itc_eligible: {
+        total_itc_claimed: task.preparedData?.itcEligible || 12850,
+        invoices_reconciled: task.preparedData?.invoicesCount || 42,
+        flagged_invoices: task.preparedData?.flaggedInvoicesCount || 4,
+      },
+      preparation_metadata: {
+        prepared_by: "VyaparAI Autonomous Multi-Agent Back Office",
+        compliance_engine: "GSTN-Draft-Engine v1.0",
+        timestamp: new Date().toISOString(),
+        disclaimer: task.filingDisclaimer,
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(gstnPayload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `GSTN_${task.formType || 'GSTR3B'}_${(task.period || 'current').replace(/\s+/g, '_')}_Draft.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (loading) {
     return <div className="p-8 text-center text-xs text-slate-500">Loading statutory compliance calendar...</div>;
   }
@@ -307,7 +343,7 @@ export const ComplianceTab: React.FC = () => {
               </span>
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() => alert('Downloaded official simulated JSON/PDF return payload!')}
+                  onClick={() => handleDownloadGstnJson(selectedTaskForModal)}
                   className="px-3 py-1.5 border border-slate-300 rounded-xl hover:bg-slate-200 text-slate-700 font-medium flex items-center space-x-1"
                 >
                   <Download className="w-3.5 h-3.5" />
