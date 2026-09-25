@@ -66,4 +66,77 @@ export class AuthController {
       res.status(500).json({ error: err.message });
     }
   }
+
+  static async listBusinesses(req: Request, res: Response): Promise<void> {
+    try {
+      const businesses = await Business.find().select('name businessType city state annualTurnover gstin');
+      const users = await User.find().select('businessId name email role');
+
+      const result = businesses.map((b) => {
+        const ownerUser = users.find((u) => u.businessId.toString() === b._id.toString());
+        return {
+          id: b._id,
+          name: b.name,
+          businessType: b.businessType,
+          city: b.city,
+          state: b.state,
+          annualTurnover: b.annualTurnover,
+          gstin: b.gstin,
+          userEmail: ownerUser?.email,
+          userName: ownerUser?.name,
+        };
+      });
+
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+
+  static async switchBusiness(req: Request, res: Response): Promise<void> {
+    try {
+      const { businessId } = req.body;
+      if (!businessId) {
+        res.status(400).json({ error: 'businessId is required' });
+        return;
+      }
+
+      const business = await Business.findById(businessId);
+      if (!business) {
+        res.status(404).json({ error: 'Business not found' });
+        return;
+      }
+
+      const user = await User.findOne({ businessId });
+      if (!user) {
+        res.status(404).json({ error: 'No user found for this business' });
+        return;
+      }
+
+      const token = jwt.sign(
+        {
+          userId: user._id.toString(),
+          businessId: user.businessId.toString(),
+          role: user.role,
+          name: user.name,
+          email: user.email,
+        },
+        JWT_SECRET,
+        { expiresIn: JWT_EXPIRES_IN } as any
+      );
+
+      res.json({
+        token,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        business,
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 }

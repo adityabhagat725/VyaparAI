@@ -17,6 +17,8 @@ const router = Router();
 // Public Auth Endpoints
 router.post('/auth/login', AuthController.login);
 router.get('/auth/me', authMiddleware, AuthController.me);
+router.get('/auth/businesses', AuthController.listBusinesses);
+router.post('/auth/switch-business', AuthController.switchBusiness);
 
 // Protected Business Routes
 router.use(authMiddleware);

@@ -66,8 +66,13 @@ export const api = {
   sendChatMessage: (text: string, channel: string = 'WHATSAPP') =>
     apiRequest<any>('/chat', { method: 'POST', body: JSON.stringify({ text, channel }) }),
 
-  // Settings
+  // Settings & Multi-tenant Switching
   getSettings: () => apiRequest<any>('/settings'),
   updateSettings: (data: any) => apiRequest<any>('/settings', { method: 'PUT', body: JSON.stringify(data) }),
   resetDemoData: () => apiRequest<any>('/settings/reset-demo', { method: 'POST' }),
+
+  // Multi-tenant Enterprises
+  listBusinesses: () => apiRequest<any[]>('/auth/businesses'),
+  switchBusiness: (businessId: string) =>
+    apiRequest<any>('/auth/switch-business', { method: 'POST', body: JSON.stringify({ businessId }) }),
 };

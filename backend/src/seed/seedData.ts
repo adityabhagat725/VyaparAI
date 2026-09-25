@@ -644,7 +644,167 @@ export async function seedDatabase(force: boolean = false): Promise<void> {
       'Namaste Ramesh ji! 🙏 I am your VyaparAI Back Office assistant. I am continuously monitoring your stock, supplier payments, GST tasks, and expenses.\n\nYou can ask me things like:\n• "How is my business doing?"\n• "Check my inventory"\n• "Check supplier payments"\n• "What compliance tasks are pending?"\n• "Find schemes for my business"',
   });
 
-  console.log('✅ Demo database successfully seeded for Shree General Store!');
+  // ==========================================
+  // 17. Seed Business 2: "Sharma Auto Spares" (Nagpur)
+  // Demonstrates strict multi-tenant isolation!
+  // ==========================================
+  const business2 = await Business.create({
+    name: 'Sharma Auto Spares',
+    businessType: 'Automobile Spare Parts & Wholesale',
+    gstin: '27AABCS9988D1Z2',
+    pan: 'AABCS9988D',
+    address: 'Shop 4, Gandhi Grain Market Road, Central Avenue',
+    city: 'Nagpur',
+    state: 'Maharashtra',
+    pincode: '440002',
+    phone: '+91 97654 33221',
+    email: 'rahul@sharmaauto.com',
+    annualTurnover: 7200000,
+    employeeCount: 5,
+    settings: {
+      autoApproveLowRisk: true,
+      stockoutRiskThresholdDays: 5,
+      gstAlertDaysPrior: 7,
+      overduePaymentGraceDays: 3,
+      whatsappNotificationsEnabled: true,
+    },
+  });
+
+  await User.create({
+    businessId: business2._id,
+    name: 'Rahul Sharma',
+    email: 'rahul@sharmaauto.com',
+    passwordHash,
+    phone: '+91 97654 33221',
+    role: 'OWNER',
+    isDemoUser: false,
+  });
+
+  const boschSupplier = await Supplier.create({
+    businessId: business2._id,
+    name: 'Bosch Authorized Dealer',
+    contactPerson: 'Vikas Deshmukh',
+    phone: '+91 98230 99887',
+    email: 'orders@bosch-nagpur.com',
+    gstin: '27AABCB1234F1Z9',
+    address: 'MIDC Hingna Industrial Area, Nagpur',
+    productsSupplied: ['Brake Pads', 'Spark Plugs', 'Oil Filters'],
+    paymentTermsDays: 30,
+    outstandingBalance: 48500,
+    avgDeliveryLeadDays: 2,
+    upiId: 'boschnagpur@icici',
+  });
+
+  const castrolSupplier = await Supplier.create({
+    businessId: business2._id,
+    name: 'Western Lubricants Dist.',
+    contactPerson: 'Pradeep Joshi',
+    phone: '+91 98231 44556',
+    email: 'contact@westernlube.in',
+    gstin: '27AABCW5678G1Z4',
+    address: 'Wanjra Layout, Kamptee Road, Nagpur',
+    productsSupplied: ['Engine Oil 20W40', 'Gear Oil', 'Coolant'],
+    paymentTermsDays: 15,
+    outstandingBalance: 22000,
+    avgDeliveryLeadDays: 1,
+    upiId: 'westernlube@hdfcbank',
+  });
+
+  const prodEngineOil = await Product.create({
+    businessId: business2._id,
+    name: 'Engine Oil 20W40 (4L Can)',
+    category: 'Lubricants',
+    sku: 'LUB-ENG-20W40-4L',
+    hsnCode: '2710',
+    unit: 'can',
+    basePurchasePrice: 1250,
+    sellingPrice: 1650,
+    taxRatePercent: 18,
+  });
+
+  const prodBrakePads = await Product.create({
+    businessId: business2._id,
+    name: 'Ceramic Front Brake Pads',
+    category: 'Braking Systems',
+    sku: 'BRK-CER-PAD-F',
+    hsnCode: '8708',
+    unit: 'box',
+    basePurchasePrice: 850,
+    sellingPrice: 1200,
+    taxRatePercent: 18,
+  });
+
+  await Inventory.create([
+    {
+      businessId: business2._id,
+      productId: prodEngineOil._id,
+      currentStock: 4,
+      safetyStockThreshold: 10,
+      recommendedReorderQuantity: 15,
+      avgDailySales: 2.5,
+      stockVelocity: 2.5,
+      estimatedDaysLeft: 1.6,
+      stockStatus: 'CRITICAL',
+      preferredSupplierId: castrolSupplier._id,
+    },
+    {
+      businessId: business2._id,
+      productId: prodBrakePads._id,
+      currentStock: 18,
+      safetyStockThreshold: 15,
+      recommendedReorderQuantity: 20,
+      avgDailySales: 1.5,
+      stockVelocity: 1.5,
+      estimatedDaysLeft: 12,
+      stockStatus: 'HEALTHY',
+      preferredSupplierId: boschSupplier._id,
+    },
+  ]);
+
+  await ComplianceTask.create({
+    businessId: business2._id,
+    title: 'GSTR-1 Quarterly Return',
+    category: 'GST',
+    formType: 'GSTR-1',
+    period: 'Q2 2026',
+    dueDate: new Date(Date.now() + 12 * 86400000),
+    status: 'UPCOMING',
+    requiredDocuments: ['B2B Invoices', 'HSN Summary'],
+    missingDocuments: [],
+    preparedData: {
+      totalTurnover: 1840000,
+      taxableValue: 1560000,
+      cgstAmount: 140400,
+      sgstAmount: 140400,
+      igstAmount: 42000,
+      itcEligible: 98000,
+      invoicesCount: 68,
+      flaggedInvoicesCount: 0,
+      summaryNotes: 'Auto-prepared from sales ledger.',
+    },
+    filingDisclaimer: 'DEMO / ASSISTANCE ONLY: AI prepares and reconciles data.',
+    approvedByOwner: false,
+  });
+
+  const conv2 = await Conversation.create({
+    businessId: business2._id,
+    channel: 'WHATSAPP',
+    participantPhone: '+91 97654 33221',
+    lastMessageAt: new Date(),
+    status: 'ACTIVE',
+  });
+
+  await Message.create({
+    conversationId: conv2._id,
+    businessId: business2._id,
+    sender: 'AGENT',
+    agentName: 'VyaparAI Orchestrator',
+    messageType: 'TEXT',
+    content:
+      'Namaste Rahul ji! 🚗 I am monitoring inventory and supplier dues for Sharma Auto Spares, Nagpur. Engine Oil 20W40 has only ~1.5 days remaining (4 cans left). Let me know if you would like me to prepare a purchase order with Western Lubricants.',
+  });
+
+  console.log('✅ Demo database successfully seeded for Shree General Store & Sharma Auto Spares!');
 }
 
 // Standalone execution runner
