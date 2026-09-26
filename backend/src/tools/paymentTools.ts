@@ -139,4 +139,91 @@ export class PaymentTools {
 
     return inv;
   }
+
+  static async disburseInvoicePayment(params: {
+    businessId: string;
+    invoiceId: string;
+    amount?: number;
+    paymentMode?: 'UPI' | 'NEFT' | 'CASH';
+    referenceNote?: string;
+  }): Promise<any> {
+    const inv = await Invoice.findOne({ _id: params.invoiceId, businessId: params.businessId }).populate('supplierId');
+    if (!inv) throw new Error('Invoice not found');
+
+    const paymentAmount = params.amount || inv.pendingAmount;
+    inv.paidAmount += paymentAmount;
+    inv.pendingAmount = Math.max(0, inv.amount - inv.paidAmount);
+    if (inv.pendingAmount === 0) {
+      inv.status = 'PAID';
+      inv.reconciliationStatus = 'MATCHED';
+    } else {
+      inv.status = 'PARTIALLY_PAID';
+      inv.reconciliationStatus = 'PARTIAL_MATCH';
+    }
+    await inv.save();
+
+    // Create Payment document
+    const payment = await Payment.create({
+      businessId: inv.businessId,
+      supplierId: (inv.supplierId as any)._id,
+      invoiceId: inv._id,
+      amount: paymentAmount,
+      paymentMode: params.paymentMode || 'UPI',
+      referenceNumber: `TXN-UPI-${Date.now().toString().slice(-8)}`,
+      paymentDate: new Date(),
+      status: 'COMPLETED',
+      reconciled: inv.reconciliationStatus === 'MATCHED',
+      notes: params.referenceNote || 'Payment disbursed via VyaparAI gateway',
+    });
+
+    await AuditService.log({
+      businessId: params.businessId,
+      agentName: 'PaymentAgent',
+      actionType: 'DISBURSE_SUPPLIER_PAYMENT',
+      resourceType: 'Payment',
+      resourceId: payment._id.toString(),
+      riskLevel: 'HIGH',
+      inputData: { invoiceId: params.invoiceId, paymentAmount },
+      outputData: {
+        paymentId: payment._id,
+        newPendingAmount: inv.pendingAmount,
+        invoiceStatus: inv.status,
+      },
+      status: 'SUCCESS',
+    });
+
+    return { invoice: inv, payment };
+  }
+
+  static async generatePaymentLink(params: {
+    businessId: string;
+    invoiceId: string;
+  }): Promise<{
+    paymentLink: string;
+    upiString: string;
+    amount: number;
+    supplierName: string;
+    invoiceNumber: string;
+  }> {
+    const inv = await Invoice.findOne({ _id: params.invoiceId, businessId: params.businessId }).populate('supplierId');
+    if (!inv) throw new Error('Invoice not found');
+
+    const supp = inv.supplierId as any;
+    const upiId = supp?.upiId || 'supplier@upi';
+    const amount = inv.pendingAmount;
+    const invoiceNumber = inv.invoiceNumber;
+    const supplierName = supp?.name || 'Wholesale Supplier';
+
+    // Standard NPCI UPI Intent URI
+    const upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(supplierName)}&am=${amount}&cu=INR&tn=Invoice%20${encodeURIComponent(invoiceNumber)}`;
+    const paymentLink = `https://rzp.io/i/vyapar_${inv._id.toString().slice(-6)}`;
+
+    return {
+      paymentLink,
+      upiString,
+      amount,
+      supplierName,
+      invoiceNumber,
+    };
+  }
 }

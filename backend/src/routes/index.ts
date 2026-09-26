@@ -40,6 +40,8 @@ router.get('/payments/reconciliation', PaymentController.getReconciliation);
 router.get('/payments/invoices', PaymentController.listInvoices);
 router.get('/payments', PaymentController.listPayments);
 router.post('/payments/reconcile', PaymentController.reconcileInvoice);
+router.post('/payments/pay', PaymentController.disbursePayment);
+router.post('/payments/link', PaymentController.createPaymentLink);
 
 // 5. Compliance & GST
 router.get('/compliance', ComplianceController.list);

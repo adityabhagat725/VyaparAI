@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Conversation, Message, User } from '../models';
+import { Conversation, Message, User, Business } from '../models';
 import { OrchestratorAgent } from '../agents/orchestrator';
 
 export class ChatController {
@@ -107,8 +107,87 @@ export class ChatController {
 
     // Incoming WhatsApp payload
     try {
+      const body = req.body;
+      if (body?.object === 'whatsapp_business_account') {
+        const entry = body.entry?.[0];
+        const changes = entry?.changes?.[0];
+        const value = changes?.value;
+        const message = value?.messages?.[0];
+
+        if (message) {
+          const fromPhone = message.from || '';
+          let incomingText = '';
+          if (message.type === 'text') {
+            incomingText = message.text?.body || '';
+          } else if (message.type === 'interactive') {
+            incomingText = message.interactive?.button_reply?.id || message.interactive?.list_reply?.id || '';
+          } else if (message.type === 'button') {
+            incomingText = message.button?.payload || '';
+          }
+
+          if (incomingText) {
+            // Find business by phone or fall back to Shree General Store
+            const cleanPhone = fromPhone.replace(/\D/g, '').slice(-10);
+            let business = await Business.findOne({ phone: { $regex: cleanPhone } });
+            if (!business) {
+              business = await Business.findOne({ name: 'Shree General Store' });
+            }
+
+            if (business) {
+              const businessId = business._id.toString();
+
+              let conversation = await Conversation.findOne({ businessId, channel: 'WHATSAPP' });
+              if (!conversation) {
+                conversation = await Conversation.create({
+                  businessId,
+                  channel: 'WHATSAPP',
+                  participantPhone: fromPhone,
+                  lastMessageAt: new Date(),
+                });
+              } else {
+                conversation.lastMessageAt = new Date();
+                await conversation.save();
+              }
+
+              // Store user message
+              await Message.create({
+                conversationId: conversation._id,
+                businessId,
+                sender: 'USER',
+                messageType: 'TEXT',
+                content: incomingText,
+              });
+
+              // Process via Orchestrator
+              const agentResponse = await OrchestratorAgent.processMessage({
+                businessId,
+                query: incomingText,
+                channel: 'WHATSAPP',
+                phoneNumber: fromPhone,
+              });
+
+              // Store agent message
+              await Message.create({
+                conversationId: conversation._id,
+                businessId,
+                sender: 'AGENT',
+                agentName: agentResponse.agentName,
+                messageType: agentResponse.buttons && agentResponse.buttons.length > 0 ? 'ACTION_CARD' : 'TEXT',
+                content: agentResponse.text,
+                metadata: {
+                  approvalId: agentResponse.approvalId as any,
+                  actionButtons: agentResponse.buttons,
+                  cardData: agentResponse.data,
+                },
+              });
+            }
+          }
+        }
+      }
+
       res.status(200).json({ status: 'received' });
     } catch (err) {
+      console.error('WhatsApp webhook error:', err);
       res.status(500).send('Error');
     }
   }

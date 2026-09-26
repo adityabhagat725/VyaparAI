@@ -42,6 +42,10 @@ export const api = {
   getInvoices: () => apiRequest<any[]>('/payments/invoices'),
   reconcileInvoice: (invoiceId: string, resolutionNote?: string) =>
     apiRequest<any>('/payments/reconcile', { method: 'POST', body: JSON.stringify({ invoiceId, resolutionNote }) }),
+  disbursePayment: (data: { invoiceId: string; amount?: number; paymentMode?: string }) =>
+    apiRequest<any>('/payments/pay', { method: 'POST', body: JSON.stringify(data) }),
+  createPaymentLink: (invoiceId: string) =>
+    apiRequest<any>('/payments/link', { method: 'POST', body: JSON.stringify({ invoiceId }) }),
 
   // Compliance
   getCompliance: () => apiRequest<any[]>('/compliance'),

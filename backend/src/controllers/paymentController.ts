@@ -46,4 +46,49 @@ export class PaymentController {
       res.status(500).json({ error: err.message });
     }
   }
+
+  static async disbursePayment(req: Request, res: Response): Promise<void> {
+    try {
+      const businessId = req.businessId!;
+      const { invoiceId, amount, paymentMode, referenceNote } = req.body;
+
+      if (!invoiceId) {
+        res.status(400).json({ error: 'Invoice ID is required' });
+        return;
+      }
+
+      const result = await PaymentTools.disburseInvoicePayment({
+        businessId,
+        invoiceId,
+        amount: amount ? parseFloat(amount) : undefined,
+        paymentMode,
+        referenceNote,
+      });
+
+      res.status(200).json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  }
+
+  static async createPaymentLink(req: Request, res: Response): Promise<void> {
+    try {
+      const businessId = req.businessId!;
+      const { invoiceId } = req.body;
+
+      if (!invoiceId) {
+        res.status(400).json({ error: 'Invoice ID is required' });
+        return;
+      }
+
+      const link = await PaymentTools.generatePaymentLink({
+        businessId,
+        invoiceId,
+      });
+
+      res.status(200).json(link);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 }
