@@ -95,21 +95,24 @@ export default function App() {
       {/* Top Header */}
       <Header
         business={business}
+        activeTab={activeTab}
         pendingApprovalsCount={pendingApprovalsCount}
+        urgentLowStockCount={urgentLowStockCount}
         onResetDemo={handleResetDemo}
         resetting={resetting}
       />
 
       {/* Guided Demo Scenarios Bar */}
-      <div className="bg-slate-950 border-b border-slate-800 px-6 py-2 flex items-center space-x-2.5 overflow-x-auto text-xs shrink-0 no-scrollbar">
-        <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider shrink-0 flex items-center space-x-1">
-          <span>⚡ {t.quickScenarios}</span>
+      <div className="bg-white/90 backdrop-blur-xs border-b border-slate-200/80 px-6 py-2 flex items-center space-x-2.5 overflow-x-auto text-xs shrink-0 no-scrollbar shadow-xs">
+        <span className="text-[11px] font-bold text-primary-600 uppercase tracking-wider shrink-0 flex items-center space-x-1.5">
+          <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
+          <span>{t.quickScenarios}</span>
         </span>
         {scenarios.map((sc, idx) => (
           <button
             key={idx}
             onClick={() => handleTriggerScenario(sc.prompt)}
-            className="shrink-0 px-3 py-1 rounded-full bg-slate-800 hover:bg-emerald-700 text-slate-200 hover:text-white border border-slate-700 hover:border-emerald-500 font-medium transition text-[11px]"
+            className="shrink-0 px-2.5 py-1 rounded-full bg-slate-100/80 hover:bg-primary-50 text-slate-700 hover:text-primary-700 border border-slate-200 hover:border-primary-300 font-medium transition text-[11px]"
           >
             {sc.label}
           </button>
@@ -124,10 +127,11 @@ export default function App() {
           onTabChange={(tab) => setActiveTab(tab)}
           pendingApprovalsCount={pendingApprovalsCount}
           urgentLowStockCount={urgentLowStockCount}
+          business={business}
         />
 
         {/* Dynamic Content Panel */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-100/90">
+        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-50/60">
           <div className="max-w-7xl mx-auto">
             {activeTab === 'dashboard' && (
               <DashboardTab
