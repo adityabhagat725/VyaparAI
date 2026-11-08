@@ -4,11 +4,9 @@ services:
     env: node
     plan: free
     region: oregon
-    buildCommand: npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: USE_MEMORY_DB
         value: "true"
       - key: JWT_SECRET
