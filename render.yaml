@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: vyaparai
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: USE_MEMORY_DB
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000

@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 import { connectDB } from './config/db';
 import apiRouter from './routes';
 import { seedDatabase } from './seed/seedData';
@@ -26,6 +28,23 @@ app.get('/api/health', (req: Request, res: Response) => {
 
 // Mount All API Routes
 app.use('/api', apiRouter);
+
+// In production or unified cloud deployments, serve the built frontend
+const candidateStaticPaths = [
+  path.resolve(__dirname, '../../frontend/dist'),
+  path.resolve(__dirname, '../frontend/dist'),
+  path.resolve(process.cwd(), 'frontend/dist'),
+];
+const frontendDist = candidateStaticPaths.find((p) => fs.existsSync(p));
+
+if (frontendDist) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req: Request, res: Response) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(frontendDist, 'index.html'));
+    }
+  });
+}
 
 async function startServer() {
   try {

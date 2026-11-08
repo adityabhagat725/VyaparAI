@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = ((import.meta as any).env?.VITE_API_URL || '').replace(/\/$/, '') + '/api';
 
 export async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('vyapar_token');
