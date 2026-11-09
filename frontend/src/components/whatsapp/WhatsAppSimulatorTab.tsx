@@ -141,34 +141,34 @@ export const WhatsAppSimulatorTab: React.FC<WhatsAppSimulatorTabProps> = ({
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-8.5rem)] flex flex-col bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
+    <div className="max-w-4xl mx-auto h-[calc(100dvh-13.5rem)] md:h-[calc(100vh-8.5rem)] flex flex-col bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-700">
       {/* WhatsApp Header */}
-      <div className="bg-[#075E54] text-white px-5 py-3.5 flex items-center justify-between shrink-0 shadow-md">
-        <div className="flex items-center space-x-3.5">
-          <div className="relative">
-            <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-xl font-bold border-2 border-emerald-400/40">
+      <div className="bg-[#075E54] text-white px-3.5 sm:px-5 py-3 sm:py-3.5 flex items-center justify-between shrink-0 shadow-md">
+        <div className="flex items-center space-x-2.5 sm:space-x-3.5 truncate">
+          <div className="relative shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-700 flex items-center justify-center text-lg sm:text-xl font-bold border-2 border-emerald-400/40">
               🤖
             </div>
-            <span className="w-3 h-3 rounded-full bg-emerald-400 absolute bottom-0 right-0 border-2 border-[#075E54]"></span>
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-400 absolute bottom-0 right-0 border-2 border-[#075E54]"></span>
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h3 className="font-bold text-sm tracking-tight text-white">VyaparAI Back Office</h3>
-              <span className="text-[9px] bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 px-1.5 py-0.2 rounded font-semibold uppercase">
+          <div className="truncate">
+            <div className="flex items-center space-x-1.5 sm:space-x-2 truncate">
+              <h3 className="font-bold text-xs sm:text-sm tracking-tight text-white truncate">VyaparAI Back Office</h3>
+              <span className="text-[9px] bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 px-1.5 py-0.2 rounded font-semibold uppercase shrink-0">
                 Official MSME Agent
               </span>
             </div>
-            <p className="text-[11px] text-emerald-100 flex items-center space-x-1">
+            <p className="text-[10px] sm:text-[11px] text-emerald-100 flex items-center space-x-1">
               <span>Online • Autonomous Orchestrator</span>
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-4 text-emerald-100">
+        <div className="flex items-center space-x-2.5 sm:space-x-4 text-emerald-100 shrink-0">
           <button className="hover:text-white transition" title="Simulated Call">
             <Phone className="w-4 h-4" />
           </button>
-          <button className="hover:text-white transition" title="Simulated Video">
+          <button className="hover:text-white transition hidden sm:inline-flex" title="Simulated Video">
             <Video className="w-4 h-4" />
           </button>
           <button className="hover:text-white transition" title="Options">
@@ -178,7 +178,7 @@ export const WhatsAppSimulatorTab: React.FC<WhatsAppSimulatorTabProps> = ({
       </div>
 
       {/* Suggested Quick Action Chips */}
-      <div className="bg-[#128C7E]/10 border-b border-emerald-800/30 px-4 py-2 flex items-center space-x-2 overflow-x-auto no-scrollbar shrink-0">
+      <div className="bg-[#128C7E]/10 border-b border-emerald-800/30 px-3 sm:px-4 py-2 flex items-center space-x-2 overflow-x-auto no-scrollbar shrink-0">
         <span className="text-[11px] font-semibold text-emerald-400 shrink-0 flex items-center space-x-1 mr-1">
           <Sparkles className="w-3 h-3" />
           <span>Demo Prompts:</span>
@@ -294,42 +294,42 @@ export const WhatsAppSimulatorTab: React.FC<WhatsAppSimulatorTabProps> = ({
       </div>
 
       {/* WhatsApp Input Footer */}
-      <div className="bg-[#202c33] px-4 py-3 flex items-center space-x-2.5 shrink-0 border-t border-slate-800">
-        <button className="text-slate-400 hover:text-slate-200 transition" title="Emoji">
+      <div className="bg-[#202c33] px-2.5 sm:px-4 py-2 sm:py-3 flex items-center space-x-1.5 sm:space-x-2.5 shrink-0 border-t border-slate-800">
+        <button className="text-slate-400 hover:text-slate-200 transition hidden sm:inline-flex" title="Emoji">
           <Smile className="w-5 h-5" />
         </button>
         <button className="text-slate-400 hover:text-slate-200 transition" title="Attach Document / Bill">
-          <Paperclip className="w-5 h-5" />
+          <Paperclip className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {isRecordingVoice ? (
-          <div className="flex-1 flex items-center justify-between bg-red-950/40 border border-red-800/60 rounded-xl px-4 py-2 text-xs">
+          <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between bg-red-950/40 border border-red-800/60 rounded-xl px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs gap-1.5">
             <div className="flex items-center space-x-2 text-red-400">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
-              <span className="font-semibold">Simulating Voice Note...</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping shrink-0"></span>
+              <span className="font-semibold text-[11px] sm:text-xs">Voice Simulator</span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1.5 flex-wrap">
               <button
                 onClick={() => {
                   setIsRecordingVoice(false);
                   handleSend('Rice kitna bacha hai?');
                 }}
-                className="text-[11px] bg-red-900/60 hover:bg-red-800 text-red-200 px-2.5 py-1 rounded-md"
+                className="text-[10px] sm:text-[11px] bg-red-900/60 hover:bg-red-800 text-red-200 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md"
               >
-                &quot;Rice kitna bacha hai?&quot;
+                &quot;Rice kitna bacha?&quot;
               </button>
               <button
                 onClick={() => {
                   setIsRecordingVoice(false);
                   handleSend('Handle the low stock');
                 }}
-                className="text-[11px] bg-red-900/60 hover:bg-red-800 text-red-200 px-2.5 py-1 rounded-md"
+                className="text-[10px] sm:text-[11px] bg-red-900/60 hover:bg-red-800 text-red-200 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md"
               >
-                &quot;Handle the low stock&quot;
+                &quot;Low stock&quot;
               </button>
               <button
                 onClick={() => setIsRecordingVoice(false)}
-                className="text-slate-400 hover:text-white px-2 py-1 text-xs"
+                className="text-slate-400 hover:text-white px-1.5 py-0.5 text-[11px]"
               >
                 Cancel
               </button>

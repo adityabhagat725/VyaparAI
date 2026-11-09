@@ -87,23 +87,23 @@ export const AiAssistantTab: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-9.5rem)] flex flex-col bg-white rounded-2xl shadow-card border border-slate-200/90 overflow-hidden animate-fade-in">
+    <div className="max-w-4xl mx-auto h-[calc(100dvh-13.5rem)] md:h-[calc(100vh-9.5rem)] flex flex-col bg-white rounded-2xl shadow-card border border-slate-200/90 overflow-hidden animate-fade-in">
       {/* Top Header */}
-      <div className="bg-white px-6 py-4 flex items-center justify-between border-b border-slate-200/80 sticky top-0 z-10">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center border border-primary-100 shadow-xs">
-            <Bot className="w-5 h-5" />
+      <div className="bg-white px-3.5 sm:px-6 py-3 sm:py-4 flex items-center justify-between border-b border-slate-200/80 sticky top-0 z-10">
+        <div className="flex items-center space-x-2.5 sm:space-x-3 truncate">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center border border-primary-100 shadow-xs shrink-0">
+            <Bot className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <h3 className="font-bold text-sm text-slate-900 tracking-tight">
+          <div className="truncate">
+            <div className="flex items-center space-x-1.5 sm:space-x-2 truncate">
+              <h3 className="font-bold text-xs sm:text-sm text-slate-900 tracking-tight truncate">
                 VyaparAI Autonomous Copilot
               </h3>
               <Badge variant="primary" dot>
-                7 Agents Active
+                7 Active
               </Badge>
             </div>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[10px] sm:text-[11px] text-slate-500 truncate">
               Natural language orchestrator connected to real-time store database
             </p>
           </div>
@@ -111,7 +111,7 @@ export const AiAssistantTab: React.FC = () => {
 
         <button
           onClick={loadMessages}
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
+          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition shrink-0"
           title="Refresh History"
         >
           <RefreshCw className="w-4 h-4" />
@@ -119,7 +119,7 @@ export const AiAssistantTab: React.FC = () => {
       </div>
 
       {/* Suggested Query Chips */}
-      <div className="px-5 py-2.5 bg-slate-50/70 border-b border-slate-200/70 flex items-center space-x-2 overflow-x-auto no-scrollbar shrink-0">
+      <div className="px-3 sm:px-5 py-2 sm:py-2.5 bg-slate-50/70 border-b border-slate-200/70 flex items-center space-x-2 overflow-x-auto no-scrollbar shrink-0">
         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0 mr-1">
           Quick Prompts:
         </span>
@@ -136,9 +136,9 @@ export const AiAssistantTab: React.FC = () => {
       </div>
 
       {/* Chat Messages Body */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/40">
+      <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 space-y-3.5 sm:space-y-4 bg-slate-50/40">
         {messages.length === 0 && (
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-5">
+          <div className="h-full flex flex-col items-center justify-center text-center p-4 sm:p-6 space-y-4 sm:space-y-5">
             <div className="w-14 h-14 rounded-2xl bg-primary-100 text-primary-600 flex items-center justify-center shadow-xs">
               <Sparkles className="w-7 h-7" />
             </div>
@@ -235,7 +235,7 @@ export const AiAssistantTab: React.FC = () => {
       </div>
 
       {/* Input Dock */}
-      <div className="p-3.5 bg-white border-t border-slate-200/90">
+      <div className="p-2.5 sm:p-3.5 bg-white border-t border-slate-200/90">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -248,14 +248,14 @@ export const AiAssistantTab: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type instructions: 'Order 20kg rice', 'Reconcile ABC vendor invoice'..."
-            className="flex-1 text-xs bg-slate-50/80 border border-slate-200/90 rounded-xl px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 focus:bg-white transition"
+            className="flex-1 text-xs bg-slate-50/80 border border-slate-200/90 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-600 focus:bg-white transition"
           />
           <button
             type="submit"
             disabled={loading || input.trim() === ''}
-            className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-3 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-xs disabled:opacity-40 disabled:hover:bg-primary-600 shrink-0 active:scale-95"
+            className="bg-primary-600 hover:bg-primary-700 text-white px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-xs disabled:opacity-40 disabled:hover:bg-primary-600 shrink-0 active:scale-95"
           >
-            <span>Send</span>
+            <span className="hidden xs:inline">Send</span>
             <Send className="w-3.5 h-3.5" />
           </button>
         </form>

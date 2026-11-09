@@ -114,7 +114,7 @@ export const AuditLogsTab: React.FC = () => {
       {/* Audit Table */}
       <div className="bg-white rounded-2xl border border-slate-200/90 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[650px]">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase font-semibold text-[11px] tracking-wider">
               <tr>
                 <th className="px-5 py-3.5">Timestamp</th>

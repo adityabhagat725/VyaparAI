@@ -383,8 +383,8 @@ export const ComplianceTab: React.FC = () => {
                 <h4 className="font-bold text-slate-900 text-xs mb-2">
                   3.1 Details of Outward Supplies and inward supplies liable to reverse charge
                 </h4>
-                <div className="border border-slate-200 rounded-xl overflow-hidden">
-                  <table className="w-full text-left text-xs">
+                <div className="border border-slate-200 rounded-xl overflow-x-auto">
+                  <table className="w-full text-left text-xs min-w-[520px]">
                     <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 text-[11px]">
                       <tr>
                         <th className="p-2.5">Nature of Supplies</th>
@@ -431,8 +431,8 @@ export const ComplianceTab: React.FC = () => {
                 <h4 className="font-bold text-slate-900 text-xs mb-2">
                   4. Eligible ITC (Input Tax Credit Available)
                 </h4>
-                <div className="border border-slate-200 rounded-xl overflow-hidden">
-                  <table className="w-full text-left text-xs">
+                <div className="border border-slate-200 rounded-xl overflow-x-auto">
+                  <table className="w-full text-left text-xs min-w-[520px]">
                     <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 text-[11px]">
                       <tr>
                         <th className="p-2.5">Details</th>

@@ -229,7 +229,7 @@ export const PaymentsTab: React.FC = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[720px]">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase font-semibold text-[11px] tracking-wider">
               <tr>
                 <th className="px-5 py-3.5">Invoice #</th>
@@ -326,8 +326,8 @@ export const PaymentsTab: React.FC = () => {
 
       {/* UPI Instant Settlement Modal */}
       {activePaymentInvoice && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-modal border border-slate-200">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-fade-in">
+          <div className="bg-white rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-modal border border-slate-200 max-h-[90dvh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <div className="flex items-center space-x-2.5">
                 <div className="p-2 bg-primary-50 text-primary-600 rounded-xl">
@@ -405,21 +405,21 @@ export const PaymentsTab: React.FC = () => {
                 </div>
 
                 {/* Disburse Button */}
-                <div className="pt-2 flex justify-end space-x-2">
+                <div className="pt-2 flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
                   <button
                     type="button"
                     onClick={() => {
                       setActivePaymentInvoice(null);
                       setPaymentLinkData(null);
                     }}
-                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-xs transition"
+                    className="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-xs transition"
                   >
                     Cancel
                   </button>
                   <button
                     disabled={disbursing}
                     onClick={() => handleDisburseInvoice(activePaymentInvoice._id)}
-                    className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5 text-xs active:scale-95"
+                    className="w-full sm:w-auto px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl shadow-xs transition disabled:opacity-50 flex items-center justify-center space-x-1.5 text-xs active:scale-95"
                   >
                     <Zap className="w-4 h-4" />
                     <span>

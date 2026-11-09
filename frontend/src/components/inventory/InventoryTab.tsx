@@ -188,7 +188,7 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({ onRefreshApprovals }
       {/* Inventory Table */}
       <div className="bg-white rounded-2xl border border-slate-200/90 shadow-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[720px]">
             <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 uppercase font-semibold text-[11px] tracking-wider">
               <tr>
                 <th className="px-5 py-3.5">Product & Category</th>
@@ -439,8 +439,8 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({ onRefreshApprovals }
               </div>
 
               {/* Items Table */}
-              <div className="border border-slate-200 rounded-xl overflow-hidden">
-                <table className="w-full text-left text-xs">
+              <div className="border border-slate-200 rounded-xl overflow-x-auto">
+                <table className="w-full text-left text-xs min-w-[480px]">
                   <thead className="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 text-[11px]">
                     <tr>
                       <th className="p-3">Item Description</th>
@@ -492,11 +492,11 @@ export const InventoryTab: React.FC<InventoryTabProps> = ({ onRefreshApprovals }
               </div>
             </div>
 
-            <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs">
+            <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-3">
               <span className="text-slate-400 text-[11px]">
                 Authorized via VyaparAI Agentic Back Office
               </span>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2 self-end sm:self-auto">
                 <button
                   onClick={() => window.print()}
                   className="px-3.5 py-1.5 border border-slate-300 rounded-xl hover:bg-slate-200 text-slate-700 font-semibold flex items-center space-x-1.5 transition"

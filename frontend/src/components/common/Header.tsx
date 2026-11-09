@@ -12,6 +12,7 @@ import {
   ChevronRight,
   Globe,
   SlidersHorizontal,
+  Menu,
 } from 'lucide-react';
 import { Business } from '../../types';
 import { useLanguage, Language } from '../../context/LanguageContext';
@@ -35,6 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
   urgentLowStockCount,
   onResetDemo,
   resetting,
+  onToggleSidebar,
 }) => {
   const { language, setLanguage, t } = useLanguage();
   const [businessList, setBusinessList] = useState<any[]>([]);
@@ -96,10 +98,27 @@ export const Header: React.FC<HeaderProps> = ({
   const currentMeta = getPageTitle(activeTab);
 
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-6 py-3 flex items-center justify-between sticky top-0 z-30 shadow-subtle select-none">
-      {/* Left: Breadcrumbs & Current Page Title */}
-      <div className="flex items-center space-x-3">
-        <div className="flex items-center text-xs text-slate-400 space-x-1.5 font-medium">
+    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between sticky top-0 z-30 shadow-subtle select-none">
+      {/* Left: Mobile Menu Toggle & Title OR Desktop Breadcrumbs */}
+      <div className="flex items-center space-x-2 sm:space-x-3 truncate mr-2">
+        {/* Mobile Hamburger Toggle & Page Title */}
+        <div className="flex items-center space-x-2 md:hidden truncate">
+          <button
+            onClick={onToggleSidebar}
+            className="p-1.5 -ml-1 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition active:scale-95 shrink-0"
+            aria-label="Toggle Navigation Menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <div className="flex items-center space-x-1.5 truncate">
+            <span className="font-bold text-slate-900 text-xs sm:text-sm truncate max-w-[120px] sm:max-w-[200px]">
+              {currentMeta.title}
+            </span>
+          </div>
+        </div>
+
+        {/* Desktop Breadcrumbs */}
+        <div className="hidden md:flex items-center text-xs text-slate-400 space-x-1.5 font-medium">
           <span className="text-slate-500 font-semibold">{t.appName}</span>
           <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
           <span className="text-slate-400">{currentMeta.category}</span>
@@ -109,23 +128,24 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Right Controls: AI Status, Enterprise Switcher, Notifications, Language, Avatar */}
-      <div className="flex items-center space-x-2.5">
+      <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
         {/* AI Active Status Pill */}
         <div className="relative" ref={aiStatusRef}>
           <button
             onClick={() => setShowAiStatusMenu(!showAiStatusMenu)}
-            className="flex items-center space-x-2 px-3 py-1.5 rounded-full bg-indigo-50/80 hover:bg-indigo-100/70 border border-indigo-200/70 text-indigo-700 text-xs font-semibold transition"
+            className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-indigo-50/80 hover:bg-indigo-100/70 border border-indigo-200/70 text-indigo-700 text-xs font-semibold transition"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span>AI Active</span>
+            <span className="hidden sm:inline">AI Active</span>
+            <span className="sm:hidden text-[11px]">AI</span>
             <ChevronDown className="w-3 h-3 text-indigo-500 ml-0.5" />
           </button>
 
           {showAiStatusMenu && (
-            <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-modal border border-slate-200 p-4 z-50 text-xs animate-fade-in">
+            <div className="absolute right-0 mt-2 w-72 max-w-[90vw] bg-white rounded-2xl shadow-modal border border-slate-200 p-4 z-50 text-xs animate-fade-in">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center space-x-2">
                   <Sparkles className="w-4 h-4 text-indigo-600" />
@@ -170,15 +190,15 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="relative" ref={businessMenuRef}>
           <button
             onClick={() => setShowBusinessMenu(!showBusinessMenu)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-700 text-xs font-semibold transition"
+            className="flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200/80 border border-slate-200 text-slate-700 text-xs font-semibold transition"
           >
-            <Building2 className="w-3.5 h-3.5 text-slate-500" />
-            <span className="truncate max-w-[130px]">{business?.name || 'Shree General Store'}</span>
-            <ChevronDown className="w-3 h-3 text-slate-400" />
+            <Building2 className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+            <span className="truncate max-w-[75px] sm:max-w-[130px]">{business?.name || 'Shree General Store'}</span>
+            <ChevronDown className="w-3 h-3 text-slate-400 shrink-0" />
           </button>
 
           {showBusinessMenu && (
-            <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-modal border border-slate-200 p-2.5 z-50 text-xs animate-fade-in">
+            <div className="absolute right-0 mt-2 w-80 max-w-[90vw] bg-white rounded-2xl shadow-modal border border-slate-200 p-2.5 z-50 text-xs animate-fade-in">
               <div className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 Switch Enterprise (Strict Tenant Isolation)
               </div>
@@ -214,12 +234,12 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Language Selector */}
-        <div className="flex items-center rounded-xl bg-slate-100 p-0.5 border border-slate-200 text-[11px] font-semibold">
+        <div className="flex items-center rounded-xl bg-slate-100 p-0.5 border border-slate-200 text-[10px] sm:text-[11px] font-semibold">
           {(['en', 'hi', 'mr'] as Language[]).map((lang) => (
             <button
               key={lang}
               onClick={() => setLanguage(lang)}
-              className={`px-2 py-1 rounded-lg transition ${
+              className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg transition ${
                 language === lang
                   ? 'bg-white text-indigo-600 shadow-xs font-bold'
                   : 'text-slate-500 hover:text-slate-800'
@@ -235,14 +255,14 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={onResetDemo}
           disabled={resetting}
           title={t.resetDemo}
-          className="p-1.5 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition"
+          className="p-1 sm:p-1.5 rounded-xl text-slate-500 hover:text-indigo-600 hover:bg-slate-100 border border-transparent hover:border-slate-200 transition"
         >
-          <RefreshCw className={`w-4 h-4 ${resetting ? 'animate-spin text-indigo-600' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${resetting ? 'animate-spin text-indigo-600' : ''}`} />
         </button>
 
         {/* User Profile Avatar */}
-        <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
-          <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+        <div className="flex items-center space-x-1.5 pl-1.5 sm:pl-2 border-l border-slate-200">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">
             {business?.name ? business.name.slice(0, 2).toUpperCase() : 'SG'}
           </div>
         </div>

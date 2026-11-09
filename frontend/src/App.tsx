@@ -1,4 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import {
+  LayoutDashboard,
+  MessageSquare,
+  Bot,
+  Package,
+  ShieldCheck,
+  Menu,
+} from 'lucide-react';
 import { Header } from './components/common/Header';
 import { Sidebar, NavTab } from './components/common/Sidebar';
 import { DashboardTab } from './components/dashboard/DashboardTab';
@@ -24,6 +32,7 @@ export default function App() {
   const [loadingDashboard, setLoadingDashboard] = useState(true);
   const [business, setBusiness] = useState<Business | null>(null);
   const [resetting, setResetting] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const fetchDashboard = async () => {
     try {
@@ -100,10 +109,11 @@ export default function App() {
         urgentLowStockCount={urgentLowStockCount}
         onResetDemo={handleResetDemo}
         resetting={resetting}
+        onToggleSidebar={() => setMobileSidebarOpen(!mobileSidebarOpen)}
       />
 
       {/* Guided Demo Scenarios Bar */}
-      <div className="bg-white/90 backdrop-blur-xs border-b border-slate-200/80 px-6 py-2 flex items-center space-x-2.5 overflow-x-auto text-xs shrink-0 no-scrollbar shadow-xs">
+      <div className="bg-white/90 backdrop-blur-xs border-b border-slate-200/80 px-3 sm:px-6 py-2 flex items-center space-x-2 overflow-x-auto text-xs shrink-0 no-scrollbar shadow-xs">
         <span className="text-[11px] font-bold text-primary-600 uppercase tracking-wider shrink-0 flex items-center space-x-1.5">
           <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
           <span>{t.quickScenarios}</span>
@@ -124,14 +134,19 @@ export default function App() {
         {/* Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}
-          onTabChange={(tab) => setActiveTab(tab)}
+          onTabChange={(tab) => {
+            setActiveTab(tab);
+            setMobileSidebarOpen(false);
+          }}
           pendingApprovalsCount={pendingApprovalsCount}
           urgentLowStockCount={urgentLowStockCount}
           business={business}
+          mobileOpen={mobileSidebarOpen}
+          onCloseMobile={() => setMobileSidebarOpen(false)}
         />
 
         {/* Dynamic Content Panel */}
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-slate-50/60">
+        <main className="flex-1 overflow-y-auto p-3.5 sm:p-6 md:p-8 pb-24 md:pb-8 bg-slate-50/60">
           <div className="max-w-7xl mx-auto">
             {activeTab === 'dashboard' && (
               <DashboardTab
@@ -180,6 +195,84 @@ export default function App() {
           </div>
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation Bar (md:hidden) */}
+      <nav className="fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 py-1.5 px-3 flex justify-around items-center md:hidden shadow-lg select-none">
+        <button
+          onClick={() => setActiveTab('dashboard')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg transition relative ${
+            activeTab === 'dashboard' ? 'text-primary-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <LayoutDashboard className="w-5 h-5" />
+          <span className="text-[10px] mt-0.5 tracking-tight">{t.tabs.dashboard}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('whatsapp')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg transition relative ${
+            activeTab === 'whatsapp' ? 'text-primary-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <div className="relative">
+            <MessageSquare className="w-5 h-5" />
+            <span className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">{t.tabs.whatsapp}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('assistant')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg transition relative ${
+            activeTab === 'assistant' ? 'text-primary-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <Bot className="w-5 h-5" />
+          <span className="text-[10px] mt-0.5 tracking-tight">{t.tabs.assistant}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('inventory')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg transition relative ${
+            activeTab === 'inventory' ? 'text-primary-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <div className="relative">
+            <Package className="w-5 h-5" />
+            {urgentLowStockCount > 0 && (
+              <span className="absolute -top-1 -right-2 min-w-[14px] h-[14px] rounded-full bg-rose-500 text-white text-[9px] font-bold flex items-center justify-center px-0.5">
+                {urgentLowStockCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">{t.tabs.inventory}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('approvals')}
+          className={`flex flex-col items-center justify-center py-1 px-2 rounded-lg transition relative ${
+            activeTab === 'approvals' ? 'text-primary-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+          }`}
+        >
+          <div className="relative">
+            <ShieldCheck className="w-5 h-5" />
+            {pendingApprovalsCount > 0 && (
+              <span className="absolute -top-1 -right-2 min-w-[14px] h-[14px] rounded-full bg-amber-500 text-slate-950 text-[9px] font-bold flex items-center justify-center px-0.5">
+                {pendingApprovalsCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">{t.tabs.approvals}</span>
+        </button>
+
+        <button
+          onClick={() => setMobileSidebarOpen(true)}
+          className="flex flex-col items-center justify-center py-1 px-2 rounded-lg text-slate-500 hover:text-slate-800 transition"
+        >
+          <Menu className="w-5 h-5" />
+          <span className="text-[10px] mt-0.5 tracking-tight">More</span>
+        </button>
+      </nav>
     </div>
   );
 }
